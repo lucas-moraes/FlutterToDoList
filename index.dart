@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "To Do List",
       theme: ThemeData(
-        primaryColor: Colors.yellow,
+        primaryColor: Colors.amber[700],
       ),
       home: new MyHome(),
     );
@@ -40,12 +40,8 @@ class _StateOfMyApp extends State<MyHome> {
         title: _textTitle,
         actions: <Widget>[_submitButton],
       ),
-      body: const Center(
-        child: Text(
-          'This is the home page',
-          style: TextStyle(fontSize: 24),
-        ),
-      ),
+      backgroundColor: Colors.amber[600],
+      body: CardWidget(),
     );
   }
 
@@ -54,7 +50,7 @@ class _StateOfMyApp extends State<MyHome> {
       this._isFalse = _isFalse ? false : true;
       if (_isFalse) {
         this._textTitle = new TextField(
-          style: new TextStyle(color: Colors.white),
+          style: new TextStyle(color: Colors.black),
           decoration: new InputDecoration(
               border: InputBorder.none,
               hintStyle: new TextStyle(color: Colors.black45),
@@ -73,5 +69,19 @@ class _StateOfMyApp extends State<MyHome> {
         this._buttonChangeTooltip = 'Add item';
       }
     });
+  }
+}
+
+class CardWidget extends StatelessWidget {
+  Widget build(BuildContext context) {
+    return Center(
+      child: Card(
+        child: Container(
+          width: 300,
+          height: 100,
+          child: Text('A card that can be tapped'),
+        ),
+      ),
+    );
   }
 }
