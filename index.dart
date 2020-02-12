@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "To Do List",
       theme: ThemeData(
-        primaryColor: Colors.amber[700],
+        primaryColor: Colors.grey,
       ),
       home: new MyHome(),
     );
@@ -40,8 +40,17 @@ class _StateOfMyApp extends State<MyHome> {
         title: _textTitle,
         actions: <Widget>[_submitButton],
       ),
-      backgroundColor: Colors.amber[600],
-      body: CardWidget(),
+      backgroundColor: Colors.white,
+      body: Row(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: CardWidget(),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -74,13 +83,19 @@ class _StateOfMyApp extends State<MyHome> {
 
 class CardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
-    return Center(
-      child: Card(
-        child: Container(
-          width: 300,
-          height: 100,
-          child: Text('A card that can be tapped'),
-        ),
+    return Card(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          const ListTile(
+            leading: Icon(
+              Icons.done,
+              color: Colors.blue,
+              size: 25,
+            ),
+            title: Text('A card that can be tapped'),
+          ),
+        ],
       ),
     );
   }
