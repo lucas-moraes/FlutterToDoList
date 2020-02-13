@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "To Do List",
       theme: ThemeData(
-        primaryColor: Colors.grey,
+        primaryColor: Colors.amber[700],
       ),
       home: new MyHome(),
     );
@@ -27,7 +27,11 @@ class _StateOfMyApp extends State<MyHome> {
   Widget _buttonChange = new Icon(Icons.add_circle_outline);
   String _buttonChangeTooltip = 'Add item';
   bool _isFalse = true;
+  final Map<int, String> lista = {1:'Sol'};
+  
+  
 
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,18 +44,42 @@ class _StateOfMyApp extends State<MyHome> {
         title: _textTitle,
         actions: <Widget>[_submitButton],
       ),
-      backgroundColor: Colors.white,
-      body: Row(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: CardWidget(),
+      backgroundColor: Colors.amber[600],
+      body: Column(
+          children: lista.entries.map((entry) {
+        String x = entry.value;
+        return Row(
+          children: [
+            Expanded(
+              child: Padding(
+                  padding: EdgeInsets.only(
+                      left: 7.0, top: 20.0, right: 7.0, bottom: 0.0),
+                  child: Card(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ListTile(
+                          leading: Icon(
+                            Icons.done,
+                            color: Colors.blue,
+                            size: 25,
+                          ),
+                          title: Text(x),
+                        ),
+                      ],
+                    ),
+                  )),
             ),
-          ),
-        ],
-      ),
+          ],
+        );
+      }).toList()),
     );
+  }
+  
+ _addList() {
+   List<MapEntry<int,String>> lista = new List<MapEntry<int,String>> ();
+   lista.add(new MapEntry<int,String>(6,"Armstrong BC"));
+   return print(lista);
   }
 
   _changeCommand() {
@@ -68,7 +96,7 @@ class _StateOfMyApp extends State<MyHome> {
         this._submitButton = new IconButton(
             icon: Icon(Icons.check_circle),
             tooltip: 'Save item',
-            onPressed: () {});
+            onPressed: _addList);
         this._buttonChange = new Icon(Icons.cancel);
         this._buttonChangeTooltip = 'Cancel';
       } else {
@@ -78,25 +106,5 @@ class _StateOfMyApp extends State<MyHome> {
         this._buttonChangeTooltip = 'Add item';
       }
     });
-  }
-}
-
-class CardWidget extends StatelessWidget {
-  Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          const ListTile(
-            leading: Icon(
-              Icons.done,
-              color: Colors.blue,
-              size: 25,
-            ),
-            title: Text('A card that can be tapped'),
-          ),
-        ],
-      ),
-    );
   }
 }
