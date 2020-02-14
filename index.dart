@@ -7,7 +7,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "To Do List",
+      title: "Anotações",
       theme: ThemeData(
         primaryColor: Colors.amber[700],
       ),
@@ -22,17 +22,21 @@ class MyHome extends StatefulWidget {
 }
 
 class _StateOfMyApp extends State<MyHome> {
-  Widget _textTitle = new Text('To Do List');
+  Widget _textTitle = new Text('Anotações');
   Widget _submitButton = new Text('');
   Widget _buttonChange = new Icon(Icons.add_circle_outline);
-  String _buttonChangeTooltip = 'Add item';
+  String _buttonChangeTooltip = 'Adicionar item';
   bool _isFalse = true;
   List<String> lista = [];
 
   void _addList(String item) {
-    setState(() {
-      lista.add(item);
-    });
+    if (item.isEmpty) {
+      _avisoVazio();
+    } else {
+      setState(() {
+        lista.add(item);
+      });
+    }
   }
 
   void _deleteList(int index) {
@@ -40,6 +44,34 @@ class _StateOfMyApp extends State<MyHome> {
       lista.removeAt(index);
     });
   }
+  
+  Future<void> _avisoVazio() async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Aviso'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Text('Você precisa digitar o lembrete.'),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('ok'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+  
 
   Widget _buildList() {
     return new ListView.builder(
@@ -63,6 +95,7 @@ class _StateOfMyApp extends State<MyHome> {
                       title: Text(lista[index]),
                       trailing: IconButton(
                         icon: Icon(Icons.delete),
+                        tooltip: 'Apagar',
                         color: Colors.red,
                         onPressed: () => _deleteList(index),
                       ),
@@ -94,14 +127,12 @@ class _StateOfMyApp extends State<MyHome> {
     );
   }
 
-
   _changeCommand() {
     setState(() {
       this._isFalse = _isFalse ? false : true;
       if (_isFalse) {
-        
         TextEditingController _controller = new TextEditingController();
-        
+
         this._textTitle = new TextField(
             style: new TextStyle(color: Colors.black),
             controller: _controller,
@@ -115,18 +146,19 @@ class _StateOfMyApp extends State<MyHome> {
             });
         this._submitButton = new IconButton(
           icon: Icon(Icons.check_circle),
-          tooltip: 'Save item',
+          tooltip: 'Salvar item',
           onPressed: () => _addList,
         );
         this._buttonChange = new Icon(Icons.cancel);
-        this._buttonChangeTooltip = 'Cancel';
+        this._buttonChangeTooltip = 'Cancelar';
       } else {
-        this._textTitle = new Text('To Do List');
+        this._textTitle = new Text('Anotações');
         this._submitButton = new Text('');
         this._buttonChange = new Icon(Icons.add_circle_outline);
-        this._buttonChangeTooltip = 'Add item';
+        this._buttonChangeTooltip = 'Adicionar item';
       }
     });
   }
 }
+
 
