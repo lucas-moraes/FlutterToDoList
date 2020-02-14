@@ -27,11 +27,56 @@ class _StateOfMyApp extends State<MyHome> {
   Widget _buttonChange = new Icon(Icons.add_circle_outline);
   String _buttonChangeTooltip = 'Add item';
   bool _isFalse = true;
-  final Map<int, String> lista = {1:'Sol'};
-  
-  
+  List<String> lista = [];
 
-  
+  void _addList(String item) {
+    setState(() {
+      lista.add(item);
+    });
+  }
+
+  void _deleteList(int index) {
+    setState(() {
+      lista.removeAt(index);
+    });
+  }
+
+  Widget _buildList() {
+    return new ListView.builder(
+      itemCount: lista.length,
+      itemBuilder: (context, index) {
+        return Row(children: [
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(
+                  left: 7.0, top: 20.0, right: 7.0, bottom: 0.0),
+              child: Card(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    ListTile(
+                      leading: Icon(
+                        Icons.done,
+                        color: Colors.blue,
+                        size: 25,
+                      ),
+                      title: Text(lista[index]),
+                      trailing: IconButton(
+                        icon: Icon(Icons.delete),
+                        color: Colors.red,
+                        onPressed: () => _deleteList(index),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ]);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,58 +90,34 @@ class _StateOfMyApp extends State<MyHome> {
         actions: <Widget>[_submitButton],
       ),
       backgroundColor: Colors.amber[600],
-      body: Column(
-          children: lista.entries.map((entry) {
-        String x = entry.value;
-        return Row(
-          children: [
-            Expanded(
-              child: Padding(
-                  padding: EdgeInsets.only(
-                      left: 7.0, top: 20.0, right: 7.0, bottom: 0.0),
-                  child: Card(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        ListTile(
-                          leading: Icon(
-                            Icons.done,
-                            color: Colors.blue,
-                            size: 25,
-                          ),
-                          title: Text(x),
-                        ),
-                      ],
-                    ),
-                  )),
-            ),
-          ],
-        );
-      }).toList()),
+      body: _buildList(),
     );
   }
-  
- _addList() {
-   List<MapEntry<int,String>> lista = new List<MapEntry<int,String>> ();
-   lista.add(new MapEntry<int,String>(6,"Armstrong BC"));
-   return print(lista);
-  }
+
 
   _changeCommand() {
     setState(() {
       this._isFalse = _isFalse ? false : true;
       if (_isFalse) {
+        
+        TextEditingController _controller = new TextEditingController();
+        
         this._textTitle = new TextField(
-          style: new TextStyle(color: Colors.black),
-          decoration: new InputDecoration(
-              border: InputBorder.none,
-              hintStyle: new TextStyle(color: Colors.black45),
-              hintText: 'Digite para Adicionar'),
-        );
+            style: new TextStyle(color: Colors.black),
+            controller: _controller,
+            decoration: new InputDecoration(
+                border: InputBorder.none,
+                hintStyle: new TextStyle(color: Colors.black45),
+                hintText: 'Digite para Adicionar'),
+            onSubmitted: (val) {
+              _addList(val);
+              _controller.clear();
+            });
         this._submitButton = new IconButton(
-            icon: Icon(Icons.check_circle),
-            tooltip: 'Save item',
-            onPressed: _addList);
+          icon: Icon(Icons.check_circle),
+          tooltip: 'Save item',
+          onPressed: () => _addList,
+        );
         this._buttonChange = new Icon(Icons.cancel);
         this._buttonChangeTooltip = 'Cancel';
       } else {
@@ -108,3 +129,4 @@ class _StateOfMyApp extends State<MyHome> {
     });
   }
 }
+
