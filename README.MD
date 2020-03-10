@@ -2,7 +2,7 @@
 
 Study of Flutter and Dart, a ToDo List.
 
-<img src="" width="432" /> 
+<img src="https://user-images.githubusercontent.com/50468352/76356831-59b89500-62f5-11ea-8bb4-c8b6877cf7ba.png" width="800" /> 
 
 
 
@@ -22,7 +22,7 @@ Browser that Support Flutter Like Chrome or Edge.
 ```
 1 - Access the site http://dartpad.dev/;
 2 - Copy thes script that is in https://github.com/lucas-moraes/FlutterToDoList/index.dart;
-3 - Paste on the left site of the page;
+3 - Paste on the left side of the page;
 4 - Click Run;
 ```
 
